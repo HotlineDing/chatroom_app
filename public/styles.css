@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --msg-font-family: 'Open Sans', sans-serif;
+}
+
+.message-container {
+    margin-top: 3rem;
+    background-color: aquamarine;
+    max-width: 50%;
+}
+
+.message-container p {
+    padding: .5rem 1rem;
+}
+
+.message-container .user {
+    text-align: right;
+}
+
+.message-container .update {
+    text-align: center;
+    font-style: italic;
+    font-size: .75em;
+    color: rgba(0, 0, 0, .5);
+}
+
+
+.form-container {
+    max-width: 50%;
+    background-color: aliceblue;
+    text-align: right;
+    /* background:rgba(0, 0, 0, .15); */
+}
