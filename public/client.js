@@ -1,51 +1,83 @@
-console.log('client connecting')
 const socket = io('http://localhost:5000')
-console.log('client connected')
 
-const messageContainer = document.getElementById("message-container")
-const messageForm = document.getElementById('form')
-const messageInput = document.getElementById('input')
+const chatForm = document.getElementById('chat-form')
+const chatMessages = document.querySelector('.chat-messages')
+const roomName = document.getElementById('room-name');
+const activeUsers = document.getElementById('users');
+const messageInput = document.getElementById('msg');
 
-const name = prompt('What is your name?')
-appendMessage(`You(${name}) joined`, 'update')
-socket.emit('new-user', name)
 
-socket.on('add-message', data => {
-  if(data.name === name) {
-    appendMessage(`${data.name}: ${data.message}`, 'user')
-  }else {
-    appendMessage(`${data.name}: ${data.message}`, 'message')
+//Parsing for username and room
+const {username, room} = Qs.parse(location.search, {
+  ignoreQueryPrefix: true
+})
+
+//Now join room
+socket.emit('userJoinRoom', {username, room})
+
+// socket.on('userEnterRoom', user => {
+//   console.log('meep')
+//   const div = document.createElement('div')
+//   div.classList.add('user_activity')
+//   div.classList.add('center')
+//   const p = document.createElement('p');
+//   if(username == user) {
+//     p.innerText = `You have joined the room`
+//   }else {
+//     p.innerText = `${user} has joined the room`
+//   }
+//   div.appendChild(p);
+//   document.querySelector('.chat-messages').appendChild(div);
+
+//   chatMessages.scrollTop = chatMessages.scrollHeight;
+// })
+
+socket.on('new-message', message => {
+  console.log(message.text);
+  addMessage(message);
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+})
+
+socket.on('update-user-list', user_list => {
+  activeUsers.innerHTML = '';
+  console.log(user_list)
+  for(var i=0; i<user_list.length; i++) {
+    const li = document.createElement('li');
+    li.innerText = user_list[i];
+    activeUsers.appendChild(li)
   }
-  
-  // appendMessage(`${data}`)
 })
 
-socket.on('user-connected', name => {
-  appendMessage(`${name} connected`, 'update')
-})
-
-socket.on('user-disconnected', name => {
-  appendMessage(`${name} disconnected`, 'update')
-})
-
-messageForm.addEventListener('submit', e => {
+chatForm.addEventListener('submit', e => {
   e.preventDefault()
   const message = messageInput.value
+  console.log('message sent')
   if(message){
-    // appendMessage(`You: ${message}`, 'user')
-    socket.emit('send-chat-message', message)
+    socket.emit('send-message', {user:username, message: message, room: room})
     messageInput.value = ''
   }
 })
 
-function appendMessage(message, options) {
-  const messageElement = document.createElement('p')
-  if (options === 'user') {
-    messageElement.className = 'user';
-  } else {
-    messageElement.className = options;
+
+function addMessage(message) {
+  const div = document.createElement('div')
+  div.classList.add('message')
+  if(message.username === username) {
+    div.classList.add('right')
   }
-    
-  messageElement.innerText = message
-  messageContainer.append(messageElement)
+  const p = document.createElement('p');
+  p.classList.add('meta');
+  p.innerText = message.username;
+  p.innerHTML += `<span>${message.time}</span>`;
+  div.appendChild(p);
+  const para = document.createElement('p');
+  para.classList.add('text');
+  para.innerText = message.text;
+  div.appendChild(para);
+  document.querySelector('.chat-messages').appendChild(div);
 }
+
+
+
+

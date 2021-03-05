@@ -1,26 +1,47 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>NodeJS Application</title>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="client.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1> This is the starting page of the application</h1>
- 
-    <section id="message-container" class="message-container"> 
-
-    </section>
-
-    <section class="form-container">
-        <form action="" id="form" type="submit">
-            <label for="input1">Type message:</label>
-            <input name="input1" type="" id="input" autocomplete="off">
-            <button type="submit">Send</button>
-        </form>
-    </section>
-
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+		<title>ChatCord App</title>
+	</head>
+	<body>
+		<div class="join-container">
+			<header class="join-header">
+				<h1>Chatterbox</h1>
+			</header>
+			<main class="join-main">
+				<form action="chatroom.html">
+					<div class="form-control">
+						<label for="username">Username</label>
+						<input
+							type="text"
+							name="username"
+							id="username"
+							placeholder="Enter username..."
+							required
+						/>
+					</div>
+					<div class="form-control">
+						<label for="room">Room</label>
+						<select name="room" id="room">
+							<option value="JavaScript">JavaScript</option>
+							<option value="Python">Python</option>
+							<option value="PHP">PHP</option>
+						</select>
+					</div>
+					<button type="submit" class="btn">Join Chat</button>
+				</form>
+			</main>
+		</div>
+	</body>
 </html>
