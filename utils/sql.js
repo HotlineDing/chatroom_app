@@ -71,23 +71,21 @@ class Query {
         } catch (error) {
             console.log('invalid query')
         }
-
-        // this.callback = 
     }
 }
 
 
 const events = {
-    user_login: '',
-    user_socket: '',
-    rm_user_socket: '',
-    new_room: '',
-    user_join_room: '',
-    user_leave_room: '',
-    insert_message: '',
-    clear_all_messages: '',
-    load_messages: '',
-    get_user_list: '',
+    user_login: 'user_login',
+    user_socket: 'user_socket',
+    rm_user_socket: 'rm_user_socket',
+    new_room: 'new_room',
+    user_join_room: 'user_join_room',
+    user_leave_room: 'user_leave_room',
+    insert_message: 'insert_message',
+    clear_all_messages: 'clear_all_messages',
+    load_messages: 'load_messages',
+    get_user_list: 'get_user_list',
 }
 
 

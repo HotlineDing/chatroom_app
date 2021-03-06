@@ -34,10 +34,11 @@ io.on('connection', (socket) => {
 
         let params = {user: username, room: room, socket_id: socket.id}
 
+        let events = sql.events
         
-        db.update('new_room', params).then(
-        db.update('user_join_room', params)).then(
-        db.update('user_login', params, (result) => {
+        db.update(events.user_login, params).then(
+        db.update(events.user_join_room, params)).then(
+        db.update(events.user_login, params, (result) => {
             for(var i=0; i<result.length; i++) {
                 message = formatMessage(result[i].user_name, result[i].line_text)
                 message.time = result[i].time_created
@@ -45,9 +46,8 @@ io.on('connection', (socket) => {
            }
         })).then(
 
-        db.update('user_socket', params).then().catch(error)).then(
-        db.update('user_login', params).then().catch(error)).then(
-        db.update('get_user_list', params, (result) => {
+        db.update(events.user_socket, params).then().catch(error)).then(
+        db.update(events.get_user_list, params, (result) => {
             let users = []
             for(var i=0; i<result.length; i++) {
                 users.push(result[i].user)
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
             io.to(room).emit('update-user-list', users)
         })).then(
 
-        db.update('load_messages', params, (result) => {
+        db.update(events.load_messages, params, (result) => {
             for(var i=0; i<result.length; i++) {
                 message = formatMessage(result[i].user_name, result[i].line_text)
                 message.time = result[i].time_created
