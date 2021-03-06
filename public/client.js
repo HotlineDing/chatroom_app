@@ -15,22 +15,26 @@ const {username, room} = Qs.parse(location.search, {
 //Now join room
 socket.emit('userJoinRoom', {username, room})
 
-// socket.on('userEnterRoom', user => {
-//   console.log('meep')
-//   const div = document.createElement('div')
-//   div.classList.add('user_activity')
-//   div.classList.add('center')
-//   const p = document.createElement('p');
-//   if(username == user) {
-//     p.innerText = `You have joined the room`
-//   }else {
-//     p.innerText = `${user} has joined the room`
-//   }
-//   div.appendChild(p);
-//   document.querySelector('.chat-messages').appendChild(div);
+socket.on('userRoomChange', (user, status) => {
+  console.log(user, status)
+  const div = document.createElement('div')
+  div.classList.add('user_activity')
+  div.classList.add('center')
+  const p = document.createElement('p');
+  if(username == user) {
+    p.innerText = `You have joined the room`
+  }else {
+    if(status === 'enter') {
+      p.innerText = `${user} has joined the room`
+    }else{
+      p.innerText = `${user} has left the room`
+    }  
+  }
+  div.appendChild(p);
+  document.querySelector('.chat-messages').appendChild(div);
 
-//   chatMessages.scrollTop = chatMessages.scrollHeight;
-// })
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+})
 
 socket.on('new-message', message => {
   console.log(message.text);

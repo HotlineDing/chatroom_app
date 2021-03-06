@@ -96,7 +96,8 @@ a {
 
 .chat-messages {
 	padding: 30px;
-	height: calc(100% - 40px);
+	padding-bottom: 0px;
+	height: calc(100% - 80px);
 	/* max-height: 500px; */
 	/* max-height: calc(100% - 40px); */
 	overflow-y: auto;
